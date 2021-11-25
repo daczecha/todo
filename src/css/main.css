@@ -1,6 +1,36 @@
 #main{
+    display: flex;
+    flex-direction: column;
     background-color: #fff;
     width: 200px;
     flex: 6.5;
     padding: 40px;
+    gap:20px;
+}
+
+#tasks{
+    display: flex;
+}
+
+#container{
+    display: flex;
+    flex-direction: column;
+    gap:5px;
+}
+
+.task-container{
+    height: 100vh;
+    flex: 1 1 0;
+    min-width: 130px;
+    border-top: 1px solid #eee;
+    padding: 10px;
+
+}
+
+.task-info{
+    position: relative;
+    display:flex;
+    justify-content: start;
+    gap:10px;
+    align-items: center;
 }
