@@ -1,2 +1,1 @@
-export const $app = document.getElementById('app');  
-
+export const $app = document.getElementById('app');

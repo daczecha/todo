@@ -1,5 +1,8 @@
 import { Project } from "./classes/Project";
 
-export let projects = [
-    new Project('Default','Default Project Description')
+let projectArray = [
+    new Project('Default Project','Default Project Description'),
+    new Project('Awesome Project','Awesome Project Description')
 ];
+
+export {projectArray as projectArray}
