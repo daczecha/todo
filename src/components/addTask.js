@@ -1,7 +1,8 @@
 import { $app } from '../app';
 import { Task } from '../data/classes/Task';
-import { taskArray } from '../data/tasks';
+import { projectArray } from '../data/projects';
 import { main } from './main';
+import { sideBar } from './sideBar';
 
 require('../css/addTask.css');
 
@@ -13,6 +14,9 @@ export function addTask(project){
     //Create Modal Element
     const $addTask = document.createElement('div');
     $addTask.id = 'add_task';
+
+    document.getElementById('add_task_button').disabled = true;
+
 
     //Create Name Input
     const $taskName = document.createElement('input');
@@ -51,6 +55,11 @@ export function addTask(project){
     $addTaskButton.innerText = 'Add Task';
 
 
+    const $error = document.createElement('p');
+    $error.innerText = 'Please Fill All Felds';
+    $error.style.color = 'red';
+    $error.style.textAlign = 'center';
+
     //Append Options to Priority Input
     $taskPriority.appendChild($low);
     $taskPriority.appendChild($medium);
@@ -71,18 +80,32 @@ export function addTask(project){
 
 
     //Button Event
+
+
     $addTaskButton.addEventListener('click', function(){
-        $app.removeChild($blur);
-        $app.removeChild($addTask);
-        taskArray.push(new Task(
-            $taskName.value,
-            $taskDescription.value,
-            $taskPriority.value,
-            $taskDueDate.value,
-            project.name
-        ));
-        localStorage.setItem('taskArray', JSON.stringify(taskArray));
-        $app.removeChild(document.getElementById('main'));
-        main(project);
-    })
+        if(
+            $taskName.value !== '' &&
+            $taskDescription.value !== '' &&
+            $taskPriority.value !== '' &&
+            $taskDueDate.value !== ''
+            ){
+                $app.removeChild($blur);
+                $app.removeChild($addTask);
+                project.tasks.push(new Task(
+                    $taskName.value,
+                    $taskDescription.value,
+                    $taskPriority.value,
+                    $taskDueDate.value
+                ));
+                localStorage.setItem('projectArray', JSON.stringify(projectArray));
+                $app.removeChild(document.getElementById('main'));
+                $app.removeChild(document.getElementById('side_bar'));
+                sideBar();
+                main(project);
+
+            }else{
+            $addTask.appendChild($error);
+        }
+        
+    });
 }

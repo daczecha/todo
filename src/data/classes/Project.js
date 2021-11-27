@@ -3,4 +3,5 @@ export class Project{
         this.name = name;
         this.description = description;
     }
+    tasks = [];
 }

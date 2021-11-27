@@ -1,8 +1,10 @@
 import { $app } from '../app';
+import { Task } from '../data/classes/Task';
+import { completedTasks } from '../data/completed';
 import { projectArray } from '../data/projects';
-import { taskArray } from '../data/tasks';
 import { projectIndex } from '../projectIndex';
 import { addTask } from './addTask';
+import { sideBar } from './sideBar';
 require('../css/main.css');
 
 
@@ -15,7 +17,8 @@ export function main(project){
     $main.appendChild(taskSection(project));
 
     $app.appendChild($main);
-    removeTask();
+    removeTask(project);
+    completeTask(project);
 }
 
 function infoSection(project){
@@ -24,7 +27,11 @@ function infoSection(project){
 
     const $projectName = document.createElement('h1');
     $projectName.id = 'project_name';
-    $projectName.innerText = project.name;
+    if(project.name !== 'Completed Tasks'){
+        $projectName.innerText = `${project.name} : ${project.tasks.length}`;
+    }else{
+        $projectName.innerText = `${project.name} : ${completedTasks.length}`;
+    }
 
     const $projectDescription = document.createElement('p');
     $projectDescription.id = 'project_description';
@@ -39,30 +46,35 @@ function infoSection(project){
 function taskSection(project){
     const $taskSection = document.createElement('div');
     $taskSection.id = 'task_section';
-
-    const $taskLabel = document.createElement('p');
-    $taskLabel.id = 'task_label';
-    $taskLabel.innerText = 'Tasks';
-
+    
+    if(project.name !== 'Completed Tasks'){
+        const $taskLabel = document.createElement('p');
+        $taskLabel.id = 'task_label';
+        $taskLabel.innerText = 'Tasks';
+    
+        $taskSection.appendChild($taskLabel);
+        $taskSection.appendChild(addTaskButton(projectArray[projectIndex]));
+    }else{
+        
+    }
     const $tasksWrapper = document.createElement('div');
     $tasksWrapper.id = 'tasks_wrapper';
-
-
-    $taskSection.appendChild($taskLabel);
-    $taskSection.appendChild(addTaskButton(projectArray[projectIndex]));
     $taskSection.appendChild($tasksWrapper);
 
 
     createTasks(project, $tasksWrapper);
 
+    if(project.name === 'Completed Tasks'){
+        showCompletedTasks($tasksWrapper);
+    }
+
     return $taskSection;
 }
 
 function createTasks(project, section){
-    for(let i = 0; i < taskArray.length; i++){
-        if(taskArray[i].project === project.name){
+    for(let i = project.tasks.length-1; i >= 0; i--){
             const $taskContainer = document.createElement('div');
-            $taskContainer.classList.add('task-container', taskArray[i].priority);
+            $taskContainer.classList.add('task-container', project.tasks[i].priority);
             $taskContainer.id = `task_${i}`;
 
 
@@ -73,14 +85,16 @@ function createTasks(project, section){
 
             const $taskName = document.createElement('p');
             $taskName.classList.add('task-name');
-            $taskName.innerText = taskArray[i].name;
+            $taskName.innerText = project.tasks[i].name;
 
 
-            
+            const $taskDescription = document.createElement('p');
+            $taskDescription.classList.add('task-description');
+            $taskDescription.innerText = project.tasks[i].description;
 
             const $taskDueDate = document.createElement('p');
             $taskDueDate.classList.add('task-due-date');
-            $taskDueDate.innerText = taskArray[i].dueDate;
+            $taskDueDate.innerText = project.tasks[i].dueDate;
             
             const $removeTaskButton = document.createElement('button');
             $removeTaskButton.innerText = 'Remove';
@@ -92,19 +106,45 @@ function createTasks(project, section){
 
             $taskContainer.appendChild($completeTaskButton);
             $taskContainer.appendChild($taskName);
+            $taskContainer.appendChild($taskDescription);
             $taskContainer.appendChild($taskDueDate);
             $taskContainer.appendChild($removeTaskButton);
 
             section.appendChild($taskContainer);
-        }else{
+    }
+}
 
-        }
+function showCompletedTasks(section){
+    for(let i = completedTasks.length-1; i >= 0; i--){
+        const $taskContainer = document.createElement('div');
+        $taskContainer.classList.add('task-container', completedTasks[i].priority);
+        $taskContainer.id = `task_${i}`;
+
+        const $taskName = document.createElement('p');
+        $taskName.classList.add('task-name');
+        $taskName.innerText = completedTasks[i].name;
+
+        const $taskDescription = document.createElement('p');
+        $taskDescription.classList.add('task-description');
+        $taskDescription.innerText = completedTasks[i].description;
+
+        const $taskDueDate = document.createElement('p');
+        $taskDueDate.classList.add('task-due-date');
+        $taskDueDate.innerText = completedTasks[i].dueDate;
+    
+
+        $taskContainer.appendChild($taskName);
+        $taskContainer.appendChild($taskDescription);
+        $taskContainer.appendChild($taskDueDate);
+
+        section.appendChild($taskContainer);
     }
 }
 
 function addTaskButton(project){
     const $addTaskButton = document.createElement('button');
     $addTaskButton.innerText = 'Add Task';
+    $addTaskButton.id = 'add_task_button';
 
     $addTaskButton.addEventListener('click', function(){
         addTask(project);
@@ -113,7 +153,7 @@ function addTaskButton(project){
     return $addTaskButton;
 }
 
-function removeTask(){
+function removeTask(project){
     const $removeTaskButtonArray = document.querySelectorAll('.remove-task-button');
     for (const btn of $removeTaskButtonArray) {
         btn.addEventListener('click', function() {
@@ -121,9 +161,9 @@ function removeTask(){
             var matches = this.id.match(regex);
             var index = Number(matches[0]);
             if(index > -1){
-                taskArray.splice(index, 1);
-                console.log(taskArray);
-                localStorage.setItem('taskArray', JSON.stringify(taskArray));
+                project.tasks.splice(index, 1);
+                localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
+                localStorage.setItem('projectArray', JSON.stringify(projectArray));
                 document.getElementById('tasks_wrapper').removeChild(document.getElementById(`task_${index}`));
                 resetIds();
             }
@@ -132,11 +172,38 @@ function removeTask(){
 }
 
 
-function resetIds(index){
+function resetIds(){
     const $removeTaskButtonArray = document.querySelectorAll('.remove-task-button');
     for (let i = 0; i <$removeTaskButtonArray.length; i++) {
         $removeTaskButtonArray[i].id = `remove_button_${i}`;
         $removeTaskButtonArray[i].parentNode.id = `task_${i}`;
         $removeTaskButtonArray[i].parentNode.firstChild.id = `complete_button_${i}`;
+    }
+}
+
+
+function completeTask(project){
+    const $completeTaskButtonArray = document.querySelectorAll('.complete-task-button');
+    for (const btn of $completeTaskButtonArray) {
+        btn.addEventListener('click', function() {
+            var regex = /[\d|0-9|\+]+/g;
+            var matches = this.id.match(regex);
+            var index = Number(matches[0]);
+            if(index > -1){
+                completedTasks.push(new Task(
+                    project.tasks[index].name,
+                    project.tasks[index].description,
+                    project.tasks[index].priority,
+                    project.tasks[index].dueDate
+                    ))
+                project.tasks.splice(index, 1);
+                localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
+                localStorage.setItem('projectArray', JSON.stringify(projectArray));
+                document.getElementById('tasks_wrapper').removeChild(document.getElementById(`task_${index}`));
+                resetIds();
+            }
+            $app.removeChild(document.getElementById('side_bar'));
+            sideBar();
+        });
     }
 }

@@ -1,11 +1,19 @@
+@font-face {
+    font-family: 'Montserrat';
+    src: url('../fonts/Montserrat-Medium.ttf');
+}
+
+
 *{
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    font-family: sans-serif;
     user-select: none;
+    font-family: 'Montserrat',sans-serif;
 }
 
 #app{
     display: flex;
 }
+
+

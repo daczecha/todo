@@ -39,8 +39,9 @@
     margin-right:auto;
 }
 
-.task-priority{
+.task-description{
     margin-right:auto;
+    opacity: 0.5;
 }
 
 .low{

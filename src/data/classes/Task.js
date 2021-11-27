@@ -4,8 +4,5 @@ export class Task{
         this.description = description;
         this.priority = priority;
         this.dueDate = dueDate;
-        this.project = project;
     }
-    completed = false;
-    pastDue = false;
 }
