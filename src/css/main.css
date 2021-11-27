@@ -7,3 +7,50 @@
     padding: 40px;
     gap:20px;
 }
+
+
+#tasks_wrapper{
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+    padding: 20px 0;
+    
+}
+
+.task-container{
+    display: flex;
+    justify-content: space-between;
+    gap:10px;
+    align-items: center;
+    background-color: #eee;
+    padding: 15px;
+    transition: .2s;
+    -webkit-box-shadow: 0px 4px 0px 0px rgba(0,0,0,0.3); 
+    box-shadow: 0px 4px 0px 0px rgba(0,0,0,0.3);
+}
+
+.task-container:hover{
+    scale: 1.005;
+    -webkit-box-shadow: 0px 4px 0px 0px rgba(0,0,0,0.5); 
+    box-shadow: 0px 4px 0px 0px rgba(0,0,0,0.5);
+}
+
+.task-name{
+    margin-right:auto;
+}
+
+.task-priority{
+    margin-right:auto;
+}
+
+.low{
+    border-left: 5px solid lightgreen;
+}
+
+.medium{
+    border-left: 5px solid orange;
+}
+
+.high{
+    border-left: 5px solid lightcoral;
+}

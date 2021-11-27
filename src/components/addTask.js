@@ -79,8 +79,7 @@ export function addTask(project){
             $taskDescription.value,
             $taskPriority.value,
             $taskDueDate.value,
-            project.name,
-            taskArray.length
+            project.name
         ));
         localStorage.setItem('taskArray', JSON.stringify(taskArray));
         $app.removeChild(document.getElementById('main'));

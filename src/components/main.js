@@ -7,6 +7,7 @@ require('../css/main.css');
 
 
 export function main(project){
+
     const $main = document.createElement('div');
     $main.id = 'main';
 
@@ -14,6 +15,7 @@ export function main(project){
     $main.appendChild(taskSection(project));
 
     $app.appendChild($main);
+    removeTask();
 }
 
 function infoSection(project){
@@ -42,10 +44,16 @@ function taskSection(project){
     $taskLabel.id = 'task_label';
     $taskLabel.innerText = 'Tasks';
 
+    const $tasksWrapper = document.createElement('div');
+    $tasksWrapper.id = 'tasks_wrapper';
+
+
     $taskSection.appendChild($taskLabel);
     $taskSection.appendChild(addTaskButton(projectArray[projectIndex]));
+    $taskSection.appendChild($tasksWrapper);
 
-    createTasks(project, $taskSection);
+
+    createTasks(project, $tasksWrapper);
 
     return $taskSection;
 }
@@ -54,14 +62,39 @@ function createTasks(project, section){
     for(let i = 0; i < taskArray.length; i++){
         if(taskArray[i].project === project.name){
             const $taskContainer = document.createElement('div');
-            $taskContainer.classList.add('task-container');
-            $taskContainer.id = `task_${taskArray[i].index}`;
+            $taskContainer.classList.add('task-container', taskArray[i].priority);
+            $taskContainer.id = `task_${i}`;
+
+
+            const $completeTaskButton = document.createElement('button');
+            $completeTaskButton.innerText = 'complete';
+            $completeTaskButton.classList.add('complete-task-button');
+            $completeTaskButton.id = `complete_button_${i}`;
 
             const $taskName = document.createElement('p');
             $taskName.classList.add('task-name');
-            $taskName.innerText = taskArray[i].name; 
+            $taskName.innerText = taskArray[i].name;
 
+
+            
+
+            const $taskDueDate = document.createElement('p');
+            $taskDueDate.classList.add('task-due-date');
+            $taskDueDate.innerText = taskArray[i].dueDate;
+            
+            const $removeTaskButton = document.createElement('button');
+            $removeTaskButton.innerText = 'Remove';
+            $removeTaskButton.classList.add('remove-task-button');
+            $removeTaskButton.id = `remove_button_${i}`;
+
+
+
+
+            $taskContainer.appendChild($completeTaskButton);
             $taskContainer.appendChild($taskName);
+            $taskContainer.appendChild($taskDueDate);
+            $taskContainer.appendChild($removeTaskButton);
+
             section.appendChild($taskContainer);
         }else{
 
@@ -80,16 +113,30 @@ function addTaskButton(project){
     return $addTaskButton;
 }
 
-function deleteTask(){
-    const $taskContainerArray = document.querySelectorAll('.task-container');
-    for (const btn of $taskContainerArray) {
+function removeTask(){
+    const $removeTaskButtonArray = document.querySelectorAll('.remove-task-button');
+    for (const btn of $removeTaskButtonArray) {
         btn.addEventListener('click', function() {
-            var index = Number(this.id.slice(-1));
-            if (index > -1) {
-                document.getElementById('task_section').removeChild(document.getElementById(`task_${index}`));
-                taskArray.splice(index-1, 1);
+            var regex = /[\d|0-9|\+]+/g;
+            var matches = this.id.match(regex);
+            var index = Number(matches[0]);
+            if(index > -1){
+                taskArray.splice(index, 1);
+                console.log(taskArray);
                 localStorage.setItem('taskArray', JSON.stringify(taskArray));
+                document.getElementById('tasks_wrapper').removeChild(document.getElementById(`task_${index}`));
+                resetIds();
             }
         });
+    }
+}
+
+
+function resetIds(index){
+    const $removeTaskButtonArray = document.querySelectorAll('.remove-task-button');
+    for (let i = 0; i <$removeTaskButtonArray.length; i++) {
+        $removeTaskButtonArray[i].id = `remove_button_${i}`;
+        $removeTaskButtonArray[i].parentNode.id = `task_${i}`;
+        $removeTaskButtonArray[i].parentNode.firstChild.id = `complete_button_${i}`;
     }
 }
