@@ -18,6 +18,9 @@ export function addTask(project){
     document.getElementById('add_task_button').disabled = true;
 
 
+    const $close = document.createElement('button');
+    $close.innerText = 'X';
+
     //Create Name Input
     const $taskName = document.createElement('input');
     $taskName.type = 'text';
@@ -38,16 +41,16 @@ export function addTask(project){
     //Create Priority Options
     var $low = document.createElement('option');
     $low.value = 'low';
-    $low.innerText = 'Low';
+    $low.innerText = 'Not Important';
 
     var $medium = document.createElement('option');
     $medium.value = 'medium';
-    $medium.innerText = 'Medium';
+    $medium.innerText = 'Important';
     
     
     var $high = document.createElement('option');
     $high.value = 'high';
-    $high.innerText = 'High';
+    $high.innerText = 'Very Important';
 
 
     //Create Add Task Button
@@ -67,6 +70,7 @@ export function addTask(project){
 
     
     //Append Children To Modal
+    $addTask.appendChild($close);
     $addTask.appendChild($taskName);
     $addTask.appendChild($taskDescription);
     $addTask.appendChild($taskDueDate);
@@ -81,6 +85,12 @@ export function addTask(project){
 
     //Button Event
 
+
+    $close.addEventListener('click', function(){
+        $app.removeChild($blur);
+        $app.removeChild($addTask);
+        document.getElementById('add_task_button').disabled = false;
+    })
 
     $addTaskButton.addEventListener('click', function(){
         if(
@@ -104,7 +114,7 @@ export function addTask(project){
                 main(project);
 
             }else{
-            $addTask.appendChild($error);
+            $addTask.insertBefore($error,$addTaskButton);
         }
         
     });

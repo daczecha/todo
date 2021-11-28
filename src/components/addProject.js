@@ -13,6 +13,10 @@ export function addProject(){
     $addProject.id = 'add_project';
 
     document.getElementById('add_project_modal').disabled = true;
+
+    const $close = document.createElement('button');
+    $close.innerText = 'X';
+
     //Create Name Input
     const $projectName = document.createElement('input');
     $projectName.type = 'text';
@@ -32,6 +36,7 @@ export function addProject(){
     $error.style.textAlign = 'center';
 
     //Append Children To Modal
+    $addProject.appendChild($close);
     $addProject.appendChild($projectName);
     $addProject.appendChild($projectDescription);
     $addProject.appendChild($addProjectButton);
@@ -41,6 +46,12 @@ export function addProject(){
     $app.appendChild($blur);
     $app.appendChild($addProject);
 
+
+    $close.addEventListener('click', function(){
+        $app.removeChild($blur);
+        $app.removeChild($addProject);
+        document.getElementById('add_project_modal').disabled = false;
+    })
 
     //Button Event
     $addProjectButton.addEventListener('click', function(){
@@ -55,7 +66,7 @@ export function addProject(){
             $app.removeChild(document.getElementById('side_bar'));
             sideBar();
         }else{
-            $addProject.appendChild($error);
+            $addProject.insertBefore($error,$addProjectButton);
         }
     });
 }
