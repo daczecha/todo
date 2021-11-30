@@ -13,7 +13,13 @@
     display: flex;
     flex-direction: column;
     gap:10px;
+
 }
+
+#add_project > button:first-child{
+    margin-left: auto;
+}
+
 
 #blur{
     background: rgb(239,239,239);

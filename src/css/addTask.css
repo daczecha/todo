@@ -11,11 +11,17 @@
     padding: 20px;
     display: flex;
     flex-direction: column;
+    align-items: stretch;
     gap:10px;
 }
 
 input,select{
     padding: 10px;
+}
+
+#add_task > button:first-child{
+    margin-left: auto;
+
 }
 
 #blur{

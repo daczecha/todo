@@ -25,5 +25,8 @@ button{
     transition:0.2s;
 }
 
-button:hover{
-}
+@media screen and (max-width: 620px) {
+    #app {
+      flex-direction: column;
+    }
+  }

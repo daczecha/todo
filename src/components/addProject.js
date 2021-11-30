@@ -51,6 +51,7 @@ export function addProject(){
         $app.removeChild($blur);
         $app.removeChild($addProject);
         document.getElementById('add_project_modal').disabled = false;
+        document.body.style.overflow = 'auto';
     })
 
     //Button Event
@@ -65,6 +66,7 @@ export function addProject(){
             localStorage.setItem('projectArray', JSON.stringify(projectArray));
             $app.removeChild(document.getElementById('side_bar'));
             sideBar();
+            document.body.style.overflow = 'auto';
         }else{
             $addProject.insertBefore($error,$addProjectButton);
         }

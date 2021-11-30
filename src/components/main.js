@@ -156,6 +156,7 @@ function addTaskButton(project){
 
     $addTaskButton.addEventListener('click', function(){
         addTask(project);
+        document.body.style.overflow = 'hidden';
     });
 
     return $addTaskButton;

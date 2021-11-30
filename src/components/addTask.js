@@ -32,6 +32,10 @@ export function addTask(project){
     $taskDescription.placeholder = 'Description';
 
     //Create Due Date Input
+    
+    const $label = document.createElement('p');
+    $label.innerText = 'Enter Date';
+
     const $taskDueDate = document.createElement('input');
     $taskDueDate.type = 'date';
     
@@ -73,6 +77,7 @@ export function addTask(project){
     $addTask.appendChild($close);
     $addTask.appendChild($taskName);
     $addTask.appendChild($taskDescription);
+    $addTask.appendChild($label);
     $addTask.appendChild($taskDueDate);
     $addTask.appendChild($taskPriority);
     $addTask.appendChild($addTaskButton);
@@ -90,6 +95,7 @@ export function addTask(project){
         $app.removeChild($blur);
         $app.removeChild($addTask);
         document.getElementById('add_task_button').disabled = false;
+        document.body.style.overflow = 'auto';
     })
 
     $addTaskButton.addEventListener('click', function(){
@@ -112,6 +118,7 @@ export function addTask(project){
                 $app.removeChild(document.getElementById('side_bar'));
                 sideBar();
                 main(project);
+                document.body.style.overflow = 'auto';
 
             }else{
             $addTask.insertBefore($error,$addTaskButton);

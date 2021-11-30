@@ -1,6 +1,6 @@
 #side_bar{
-    background-color: #eee;
-    min-width: 200px;
+    background-color: #fefefe;
+    min-width: 220px;
     height: 100vh;
     flex: 1.5;
     box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
@@ -20,12 +20,17 @@
     border-radius: 5px;
     cursor: pointer;
     transition: 0.2s;
+}
 
+#completed_tasks_container{
+    background-color: #ff9ff3;  
+
+    -webkit-box-shadow: 0px 4px 0px 0px #f368e0; 
+    box-shadow: 0px 4px 0px 0px #f368e0;    
 }
 
 #completed_tasks_container:hover{
-    background-color: #ddd;
-
+    filter:brightness(0.95);
 }
 
 .project-container{
@@ -34,13 +39,17 @@
     justify-content: space-between;
     padding: 10px;
     border-radius: 5px;
+    background-color: #eee;
 
     transition: 0.2s;
     cursor: pointer;
+
+    -webkit-box-shadow: 0px 4px 0px 0px rgba(0,0,0,0.3); 
+    box-shadow: 0px 4px 0px 0px rgba(0,0,0,0.3);
 }
 
 .project-container:hover{
-    background-color: #ddd;
+    background-color: #ddd; 
 }
 
 h4{
@@ -56,4 +65,29 @@ h4{
     cursor: pointer;
     transition: 0.2s;
     padding: 5px 0;
+}
+
+
+#add_project_modal{
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #1dd1a1;
+    opacity: 0.8;
+
+    transition: 0.2s;
+    -webkit-box-shadow: 0px 4px 0px 0px #10ac84; 
+    box-shadow: 0px 4px 0px 0px #10ac84;
+
+}
+
+#add_project_modal:hover{
+    opacity: 1;
+    color:white;
+}
+
+@media screen and (max-width: 620px){
+    #side_bar{
+        padding: 40px;
+        text-align: center;
+    }
 }

@@ -31,7 +31,7 @@ export function sideBar()
     const $completedTasksInfo = document.createElement('div');
     
     $completedTasksInfo.id = 'completed_tasks';
-    $completedTasksInfo.innerText = `Completed Tasks : ${completedTasks.length}`
+    $completedTasksInfo.innerText = `Completed : ${completedTasks.length}`
     
     
     $completedTasks.appendChild($completedIcon);
@@ -129,6 +129,7 @@ export function sideBar()
 function addProjectButton(){
     document.getElementById('add_project_modal').addEventListener('click', function(){
         addProject();
+        document.body.style.overflow = 'hidden';
     });
 }
 

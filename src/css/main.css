@@ -67,3 +67,41 @@
     background-color: #ddd;
 
 }
+
+
+@media screen and (max-width: 620px) {
+
+    #main{
+        align-items: center;
+        width: 100%;
+    }
+    #info_section{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    #info_section h1,
+    #info_section p{
+        text-align: center;
+    }
+
+    #task_section{
+        width: 100%;
+    }
+
+    #task_wrapper{
+        width: 100%;
+    }
+
+
+}
+
+@media screen and (max-width: 820px) {
+
+.task-description{
+        display: none;
+    }
+}
